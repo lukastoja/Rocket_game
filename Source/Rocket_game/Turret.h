@@ -18,6 +18,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Components")
 	UStaticMeshComponent* StaticMesh;
 
+	UPROPERTY(EditAnywhere, Category = "Constants")
+	float sensingRange;
+
+	void FindBestTarget();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -25,11 +30,24 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Components")
 	class USphereComponent* MySphereComponent;
 
+	UPROPERTY(EditAnywhere, Category = "Components")
+	class USphereComponent* MySphereComponentSensing;
+
 	int radius;
+
+	float currentDistance;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+	float TraceDistance;
+
+private:
+	AActor* currentTarget;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	UFUNCTION()
+	void OnOverlapBeginSensing(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
