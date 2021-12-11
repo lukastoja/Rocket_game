@@ -8,6 +8,7 @@
 #include "GameFramework/Actor.h"
 #include "Engine.h"
 #include "Rocket_gamePawn.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 ATurret::ATurret()
@@ -19,29 +20,40 @@ ATurret::ATurret()
 	currentDistance = sensingRange + 2;
 	TraceDistance = 3000;
 
-	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("StaticMesh");
+	StaticMesh1 = CreateDefaultSubobject<UStaticMeshComponent>("StaticMesh1");
+	StaticMesh2 = CreateDefaultSubobject<UStaticMeshComponent>("StaticMesh2");
+	StaticMesh3 = CreateDefaultSubobject<UStaticMeshComponent>("StaticMesh3");
 
 	MySphereComponent = CreateDefaultSubobject<USphereComponent>("Sphere comp");
 	MySphereComponent->InitSphereRadius(radius);
 
-	MySphereComponentSensing = CreateDefaultSubobject<USphereComponent>("Sphere comp sensing");
-	MySphereComponentSensing->InitSphereRadius(sensingRange);
+	/*MySphereComponentSensing = CreateDefaultSubobject<USphereComponent>("Sphere comp sensing");
+	MySphereComponentSensing->InitSphereRadius(sensingRange);*/
 
-	SetRootComponent(MySphereComponent);
-	StaticMesh->SetupAttachment(MySphereComponent);
-	MySphereComponentSensing->SetupAttachment(MySphereComponent);
+	SetRootComponent(StaticMesh1);
+	MySphereComponent->SetupAttachment(StaticMesh1);
+	StaticMesh2->SetupAttachment(StaticMesh1);
+	StaticMesh3->SetupAttachment(StaticMesh1);
+	//MySphereComponentSensing->SetupAttachment(StaticMesh);
 
 	MySphereComponent->OnComponentBeginOverlap.AddDynamic(this, &ATurret::OnOverlapBegin);
 	MySphereComponent->OnComponentEndOverlap.AddDynamic(this, &ATurret::OnOverlapEnd);
 
-	MySphereComponentSensing->OnComponentBeginOverlap.AddDynamic(this, &ATurret::OnOverlapBeginSensing);
+	//MySphereComponentSensing->OnComponentBeginOverlap.AddDynamic(this, &ATurret::OnOverlapBeginSensing);
+	okretanje = FRotator(0.f, 0.f, 0.f);
+	StaticMesh1->SetWorldRotation(okretanje);
+	kolikox = 2.f;
+	kolikoy = 2.f;
+	kolikoz = 2.f;
+	rotacijax = 0;
+	rotacijay = 0;
+	rotacijaz = 0;
 }
 
-void ATurret::FindBestTarget()
+bool ATurret::FindBestTarget()
 {
 	float bestDistance = sensingRange + 1;
 	AActor* bestTarget;
-	UE_LOG(LogTemp, Warning, TEXT("nešto jede govna"));
 	if (currentDistance < bestDistance)
 	{
 		//line of sight 
@@ -57,9 +69,23 @@ void ATurret::FindBestTarget()
 			UE_LOG(LogTemp, Warning, TEXT("okej tu sam kako treba"));
 			bestTarget = currentTarget;
 			bestDistance = currentDistance;
-			//neka puca u tom smjeru
+
+			return true;
 		}
 	}
+
+	return false;
+}
+
+void ATurret::SetTurretRotation(float DeltaTime)
+{
+	float dot = FVector::DotProduct(GetActorLocation(), currentTarget->GetActorLocation());
+	float sizea = GetActorLocation().Size();
+	float sizeb = currentTarget->GetActorLocation().Size();
+
+	float cosAlpha = dot / (sizea * sizeb);
+
+
 }
 
 // Called when the game starts or when spawned
@@ -73,10 +99,33 @@ void ATurret::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	FindBestTarget();
+	if (FindBestTarget())
+	{
+		// jebemu mu mater actor se ne okrece
+		UE_LOG(LogTemp, Warning, TEXT("nešto jede govna"));
+		SetTurretRotation(DeltaTime);
+	}
+	/*rotacijax = rotacijax + kolikox;
+	rotacijay = rotacijay + kolikoy;
+	rotacijaz = rotacijaz + kolikoz;
+	if (rotacijax > 360.f || rotacijax < -360)
+	{
+		rotacijax = 0;
+	}
+	if (rotacijay > 360.f || rotacijay < -360)
+	{
+		rotacijay = 0;
+	}
+	if (rotacijaz > 360.f || rotacijaz < -360)
+	{
+		rotacijaz = 0;
+	}
+	okretanje = FRotator(rotacijay, rotacijaz, rotacijax);
+
+	StaticMesh->SetWorldRotation(okretanje);*/
 }
 
-void ATurret::OnOverlapBeginSensing(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+/*void ATurret::OnOverlapBeginSensing(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if(Cast<ARocket_gamePawn>(OtherActor) != nullptr)
 	{
@@ -84,7 +133,7 @@ void ATurret::OnOverlapBeginSensing(UPrimitiveComponent* OverlappedComp, AActor*
 		currentDistance = FVector::Dist(GetActorLocation(), currentTarget->GetActorLocation());
 	}
 }
-
+*/
 void ATurret::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (Cast<ARocket>(OtherActor) != nullptr)

@@ -16,12 +16,40 @@ public:
 	ATurret();
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	UStaticMeshComponent* StaticMesh;
+	UStaticMeshComponent* StaticMesh1;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+	UStaticMeshComponent* StaticMesh2;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+	UStaticMeshComponent* StaticMesh3;
 
 	UPROPERTY(EditAnywhere, Category = "Constants")
 	float sensingRange;
 
-	void FindBestTarget();
+	bool FindBestTarget();
+	void SetTurretRotation(float DeltaTime);
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+		FRotator okretanje;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+		float rotacijax;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+		float rotacijay;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+		float rotacijaz;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+		float kolikox;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+		float kolikoy;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+		float kolikoz;
 
 protected:
 	// Called when the game starts or when spawned
@@ -46,9 +74,9 @@ private:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	UFUNCTION()
+	/*UFUNCTION()
 	void OnOverlapBeginSensing(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
+	*/
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
