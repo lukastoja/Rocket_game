@@ -28,4 +28,7 @@ public:
 
 	UPROPERTY()
 	int coins;
+
+	UPROPERTY()
+	int coinsTest;
 };

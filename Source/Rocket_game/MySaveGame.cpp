@@ -13,4 +13,5 @@ UMySaveGame::UMySaveGame()
 	}
 
 	coins = 0;
+	coinsTest = 0;
 }

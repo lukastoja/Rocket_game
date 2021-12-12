@@ -21,14 +21,6 @@
 #include "Rocket.h"
 #include "MySaveGame.h"
 
-//headers for custom save system
-
-#include "Serialization/Archive.h"
-#include "Serialization/BufferArchive.h"
-#include "HAL/FileManager.h"
-#include "Misc/FileHelper.h"
-#include "Serialization/MemoryReader.h"
-
 ARocket_gamePawn::ARocket_gamePawn()
 {
 	// Structure to hold one-time initialization
@@ -133,7 +125,12 @@ void ARocket_gamePawn::Destroy_Pawn()
 	GI->score = score;
 	GI->scoreboard[11] = score;
 	GI->sortScoreboard();
+	UE_LOG(LogTemp, Warning, TEXT("coins: %d"), GI->coins);
 	GI->setCoins();
+	UE_LOG(LogTemp, Warning, TEXT("coins: %d"), GI->coins);
+
+	//test coins
+	GI->setCoinsTest();
 	UGameplayStatics::OpenLevel(this, "EndLevel");
 }
 
@@ -141,6 +138,7 @@ void ARocket_gamePawn::Start_Game()
 {
 	URocketGameInstance* GI = Cast<URocketGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	GI->score = 0;
+	UE_LOG(LogTemp, Warning, TEXT("coins: %d"), GI->coins);
 	UGameplayStatics::OpenLevel(this, "Level1");
 }
 
@@ -440,6 +438,9 @@ void ARocket_gamePawn::Tick(float DeltaSeconds)
 
 	SaveGameLogic(DeltaSeconds);
 	LoadGameLogic(DeltaSeconds);
+
+	URocketGameInstance* GI = Cast<URocketGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	UE_LOG(LogTemp, Warning, TEXT("coins: %d"), GI->coins);
 }
 
 void ARocket_gamePawn::NotifyHit(class UPrimitiveComponent* MyComp, class AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit)
@@ -601,7 +602,9 @@ void ARocket_gamePawn::InitSaveGame()
 		{
 			SaveGameInstance->scoreboard[i] = GI->scoreboard[i];
 		}
+		UE_LOG(LogTemp, Warning, TEXT("coins: %d"), GI->coins);
 		SaveGameInstance->coins = GI->coins;
+		SaveGameInstance->coinsTest = GI->coinsTest;
 		UGameplayStatics::SaveGameToSlot(SaveGameInstance, "HighScore", 1);
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString(TEXT("Game saved!")), true);
 	}
@@ -618,7 +621,9 @@ void ARocket_gamePawn::InitSaveGame()
 			{
 				SaveGameInstance_2->scoreboard[i] = GI->scoreboard[i];
 			}
+			UE_LOG(LogTemp, Warning, TEXT("coins: %d"), GI->coins);
 			SaveGameInstance_2->coins = GI->coins;
+			SaveGameInstance_2->coinsTest = GI->coinsTest;
 			UGameplayStatics::SaveGameToSlot(SaveGameInstance_2, "HighScore", 1);
 			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString(TEXT("Game saved!")), true);
 		}
@@ -663,6 +668,8 @@ void ARocket_gamePawn::InitLoadGame()
 				SetScoreBoard(LoadInstance->scoreboard);
 				URocketGameInstance* GI = Cast<URocketGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 				GI->coins = LoadInstance->coins;
+				GI->coinsTest = LoadInstance->coinsTest;
+				UE_LOG(LogTemp, Warning, TEXT("coins: %d"), GI->coins);
 			}
 			else {
 				class UMySaveGame* LoadInstance_2 = Cast<UMySaveGame>(UGameplayStatics::CreateSaveGameObject(UMySaveGame::StaticClass()));
@@ -677,6 +684,8 @@ void ARocket_gamePawn::InitLoadGame()
 					SetScoreBoard(LoadInstance_2->scoreboard);
 					URocketGameInstance* GI = Cast<URocketGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 					GI->coins = LoadInstance_2->coins;
+					GI->coinsTest = LoadInstance_2->coinsTest;
+					UE_LOG(LogTemp, Warning, TEXT("coins: %d"), GI->coins);
 				}
 			}
 		}

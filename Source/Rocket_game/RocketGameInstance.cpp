@@ -11,6 +11,10 @@ URocketGameInstance::URocketGameInstance()
 		scoreboard[i] = 0;
 	}
 	coins = 0;
+
+	coinsTest = 0;
+
+	UE_LOG(LogTemp, Warning, TEXT("treba se pozvati sam ojedno pizda"));
 }
 
 void URocketGameInstance::sortScoreboard()
@@ -32,5 +36,11 @@ void URocketGameInstance::sortScoreboard()
 
 void URocketGameInstance::setCoins()
 {
+	UE_LOG(LogTemp, Warning, TEXT("coins: %d, score: %d"), coins, score);
 	coins = coins + (score / 10);
+}
+
+void URocketGameInstance::setCoinsTest()
+{
+	coinsTest = coinsTest + (score / 10);
 }

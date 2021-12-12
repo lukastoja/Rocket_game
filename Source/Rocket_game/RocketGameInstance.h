@@ -24,6 +24,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Coins")
 	int32 coins;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Coins")
+	int32 coinsTest;
+
 	void sortScoreboard();
 	void setCoins();
+	void setCoinsTest();
 };
