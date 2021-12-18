@@ -98,6 +98,9 @@ ARocket_gamePawn::ARocket_gamePawn()
 	static ConstructorHelpers::FClassFinder<UUserWidget> ScoreBoardHUD(TEXT("/Game/Blueprints/widgets/ScoreBoardWidget"));
 	ScoreboardHUDClass = ScoreBoardHUD.Class;
 
+	static ConstructorHelpers::FClassFinder<UUserWidget> ShopHUD(TEXT("/Game/Blueprints/widgets/ShopWidget"));
+	ShopHUDClass = ShopHUD.Class;
+
 
 	//Box->OnComponentBeginOverlap.AddDynamic(this, &ARocket_gamePawn::OnOverlapBegin);
 	flag = false;
@@ -238,6 +241,16 @@ void ARocket_gamePawn::Open_level_mainMenu()
 	URocketGameInstance* GI = Cast<URocketGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	GI->score = 0;
 	UGameplayStatics::OpenLevel(this, "MainMenuMap");
+}
+
+void ARocket_gamePawn::Open_shop()
+{
+	if (CurrentWidget)
+	{
+		CurrentWidget->RemoveFromViewport();
+		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), ShopHUDClass);
+		CurrentWidget->AddToViewport();
+	}
 }
 
 void ARocket_gamePawn::Back()

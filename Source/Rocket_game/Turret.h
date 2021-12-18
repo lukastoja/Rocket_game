@@ -15,16 +15,16 @@ public:
 	// Sets default values for this actor's properties
 	ATurret();
 
-	UPROPERTY(EditAnywhere, Category = "Components")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	UStaticMeshComponent* StaticMesh1;
 
-	UPROPERTY(EditAnywhere, Category = "Components")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	UStaticMeshComponent* StaticMesh2;
 
-	UPROPERTY(EditAnywhere, Category = "Components")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	UStaticMeshComponent* StaticMesh3;
 
-	UPROPERTY(EditAnywhere, Category = "Constants")
+	/*UPROPERTY(EditAnywhere, Category = "Constants")
 	float sensingRange;
 
 	bool FindBestTarget();
@@ -49,13 +49,13 @@ public:
 		float kolikoy;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-		float kolikoz;
+		float kolikoz;*/
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Category = "Components")
+	/*UPROPERTY(EditAnywhere, Category = "Components")
 	class USphereComponent* MySphereComponent;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
@@ -69,7 +69,7 @@ protected:
 	float TraceDistance;
 
 private:
-	AActor* currentTarget;
+	AActor* currentTarget;*/
 
 public:	
 	// Called every frame
@@ -77,9 +77,9 @@ public:
 	/*UFUNCTION()
 	void OnOverlapBeginSensing(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	*/
-	UFUNCTION()
+	/*UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION()
-	void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);*/
 };

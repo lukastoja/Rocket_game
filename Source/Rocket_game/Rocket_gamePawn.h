@@ -72,6 +72,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MainHud", Meta = (BlueprintProtected = "true"))
 	TSubclassOf<class UUserWidget> ScoreboardHUDClass;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MainHud", Meta = (BlueprintProtected = "true"))
+	TSubclassOf<class UUserWidget> ShopHUDClass;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MainHud")
 	int score;
 
@@ -134,6 +137,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "HUD")
 	void Open_level_mainMenu();
+
+	UFUNCTION(BlueprintCallable, Category = "HUD")
+	void Open_shop();
 
 protected:
 
