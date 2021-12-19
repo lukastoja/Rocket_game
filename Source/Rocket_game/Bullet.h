@@ -28,6 +28,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Components")
 	UStaticMeshComponent* BulletMesh;
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+	bool turretFlag;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

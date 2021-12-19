@@ -15,6 +15,9 @@ public:
 	// Sets default values for this actor's properties
 	ATurret();
 
+	UPROPERTY(EditAnywhere, Category = "Components")
+	class USceneComponent* SceneComponent;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	UStaticMeshComponent* StaticMesh1;
 

@@ -25,6 +25,7 @@ ABullet::ABullet()
 	MaterialBullet = CreateDefaultSubobject<UMaterial>("MaterialBullet");
 
 	OnActorHit.AddDynamic(this, &ABullet::OnBulletHit);
+	turretFlag = false;
 }
 
 // Called when the game starts or when spawned
@@ -48,7 +49,14 @@ void ABullet::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 	if (Cast<ARocket_gamePawn>(OtherActor) != nullptr)
 	{
 		Destroy();
-		Cast<ARocket_gamePawn>(OtherActor)->UpdateBr_metaka(1, 0);
+		if (turretFlag)
+		{
+			Cast<ARocket_gamePawn>(OtherActor)->Destroy_Pawn();
+		}
+		else
+		{
+			Cast<ARocket_gamePawn>(OtherActor)->UpdateBr_metaka(1, 0);
+		}
 		return;
 	}
 	Destroy();
