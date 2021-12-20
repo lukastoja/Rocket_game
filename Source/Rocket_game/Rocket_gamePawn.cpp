@@ -73,6 +73,7 @@ ARocket_gamePawn::ARocket_gamePawn()
 	max_metaka = 30;
 	max_raketa = 30;
 	Lokacija_Metka = 100.f;
+	health = 10;
 
 	zapocni_load = false;
 
@@ -251,6 +252,20 @@ void ARocket_gamePawn::Open_shop()
 		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), ShopHUDClass);
 		CurrentWidget->AddToViewport();
 	}
+}
+
+void ARocket_gamePawn::lowerHP()
+{
+	health--;
+	if (health <= 0)
+	{
+		Destroy_Pawn();
+	}
+}
+
+float ARocket_gamePawn::GetHPPercent()
+{
+	return health / 10;
 }
 
 void ARocket_gamePawn::Back()

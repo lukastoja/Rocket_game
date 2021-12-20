@@ -43,6 +43,8 @@ ARocket::ARocket()
 
 	initialForwardVector = GetActorForwardVector();
 	targetSet = false;
+
+	OnActorHit.AddDynamic(this, &ARocket::OnBulletHit);
 }
 
 float ARocket::EaseInOutQuad(float t)
@@ -162,3 +164,10 @@ void ARocket::Tick(float DeltaTime)
 	velocity = FMath::Clamp(newVelocity, 500.f, 10000.f);
 }
 
+void ARocket::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (Cast<ATurret>(OtherActor) != nullptr)
+	{
+		Cast<ATurret>(OtherActor)->Destroy();
+	}
+}

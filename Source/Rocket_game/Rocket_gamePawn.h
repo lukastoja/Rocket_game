@@ -141,6 +141,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "HUD")
 	void Open_shop();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	float health;
+
+	void lowerHP();
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	float GetHPPercent();
+
 protected:
 
 	// Begin APawn overrides

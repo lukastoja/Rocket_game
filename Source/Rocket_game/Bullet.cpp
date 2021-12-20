@@ -51,7 +51,7 @@ void ABullet::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 		Destroy();
 		if (turretFlag)
 		{
-			Cast<ARocket_gamePawn>(OtherActor)->Destroy_Pawn();
+			Cast<ARocket_gamePawn>(OtherActor)->lowerHP();
 		}
 		else
 		{
