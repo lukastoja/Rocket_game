@@ -27,6 +27,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Component")
 		FTransform GetSpawnPoint3();
 
+	UFUNCTION(BlueprintPure, Category = "Component")
+		FTransform GetTurretSpawnPoint1();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -66,6 +69,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Components")
 		class UArrowComponent* SpawnPoint3;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+		class UArrowComponent* TurretSpawnPoint1;
 
 public:
 	// Called every frame

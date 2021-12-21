@@ -35,6 +35,9 @@ ATunel::ATunel()
 	SpawnPoint3 = CreateDefaultSubobject<UArrowComponent>(TEXT("Spawn Point3"));
 	SpawnPoint3->SetupAttachment(SceneComponent);
 
+	TurretSpawnPoint1 = CreateDefaultSubobject<UArrowComponent>(TEXT("Turret Spawn Point1"));
+	TurretSpawnPoint1->SetupAttachment(SceneComponent);
+
 	MaterialTunel = CreateDefaultSubobject<UMaterial>("MaterialTunel");
 
 	TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerBox"));
@@ -65,6 +68,12 @@ FTransform ATunel::GetSpawnPoint3()
 {
 	// TODO: insert return statement here
 	return SpawnPoint3->GetComponentTransform();
+}
+
+FTransform ATunel::GetTurretSpawnPoint1()
+{
+	// TODO: insert return statement here
+	return TurretSpawnPoint1->GetComponentTransform();
 }
 
 // Called when the game starts or when spawned

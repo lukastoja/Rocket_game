@@ -35,6 +35,9 @@ ATunelLijevo::ATunelLijevo()
 	SpawnPoint3 = CreateDefaultSubobject<UArrowComponent>(TEXT("Spawn Point3"));
 	SpawnPoint3->SetupAttachment(SceneComponent);
 
+	TurretSpawnPoint1 = CreateDefaultSubobject<UArrowComponent>(TEXT("Turret Spawn Point1"));
+	TurretSpawnPoint1->SetupAttachment(SceneComponent);
+
 	MaterialTunel = CreateDefaultSubobject<UMaterial>("MaterialTunel");
 
 	TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerBox"));
@@ -84,6 +87,12 @@ FTransform ATunelLijevo::GetSpawnPoint3()
 {
 	// TODO: insert return statement here
 	return SpawnPoint3->GetComponentTransform();
+}
+
+FTransform ATunelLijevo::GetTurretSpawnPoint1()
+{
+	// TODO: insert return statement here
+	return TurretSpawnPoint1->GetComponentTransform();
 }
 
 void ATunelLijevo::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

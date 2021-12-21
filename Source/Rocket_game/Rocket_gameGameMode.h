@@ -45,6 +45,9 @@ public:
 	TSubclassOf<class APrepreka_zid> ZidClass;
 
 	UPROPERTY(EditAnywhere, Category = "Config")
+	TSubclassOf<class ATurret> TurretClass;
+
+	UPROPERTY(EditAnywhere, Category = "Config")
 	int32 NumInitialTunelTiles = 50;
 
 	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
@@ -52,6 +55,9 @@ public:
 
 	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
 	FTransform SpawnPoint;
+
+	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
+	FTransform TurretSpawnPoint;
 
 	UFUNCTION(BlueprintCallable)
 	void CreatInitialTunelTiles();
@@ -65,6 +71,8 @@ public:
 	void Spawn_loc();
 	void Spawn_prepreka();
 	void SetMunicijaPar(int* metak, int* raketa);
+
+	void SpawnTurret();
 
 protected:
 	bool tunelFlag;
