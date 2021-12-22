@@ -221,6 +221,12 @@ void ARocket_gameGameMode::AddTunelTile()
 
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
 			SpawnTurret();
+			TurretSpawnPoint = tunel->GetTurretSpawnPoint2();
+			SpawnTurret();
+			TurretSpawnPoint = tunel->GetTurretSpawnPoint3();
+			SpawnTurret();
+			TurretSpawnPoint = tunel->GetTurretSpawnPoint4();
+			SpawnTurret();
 		}
 		else if (m > 6){
 			ATunelDesno* tunel = GetWorld()->SpawnActor<ATunelDesno>(TunelTileClassDesno, NextSpawnPoint);
@@ -248,6 +254,12 @@ void ARocket_gameGameMode::AddTunelTile()
 			tunelFlag = true;*/
 
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
+			SpawnTurret();
+			TurretSpawnPoint = tunel->GetTurretSpawnPoint2();
+			SpawnTurret();
+			TurretSpawnPoint = tunel->GetTurretSpawnPoint3();
+			SpawnTurret();
+			TurretSpawnPoint = tunel->GetTurretSpawnPoint4();
 			SpawnTurret();
 		}
 		else if (m > 4) {
@@ -277,6 +289,12 @@ void ARocket_gameGameMode::AddTunelTile()
 
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
 			SpawnTurret();
+			TurretSpawnPoint = tunel->GetTurretSpawnPoint2();
+			SpawnTurret();
+			TurretSpawnPoint = tunel->GetTurretSpawnPoint3();
+			SpawnTurret();
+			TurretSpawnPoint = tunel->GetTurretSpawnPoint4();
+			SpawnTurret();
 		}
 		else if (m > 2) {
 			ATunelGore* tunel = GetWorld()->SpawnActor<ATunelGore>(TunelTileClassGore, NextSpawnPoint);
@@ -305,6 +323,12 @@ void ARocket_gameGameMode::AddTunelTile()
 
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
 			SpawnTurret();
+			TurretSpawnPoint = tunel->GetTurretSpawnPoint2();
+			SpawnTurret();
+			TurretSpawnPoint = tunel->GetTurretSpawnPoint3();
+			SpawnTurret();
+			TurretSpawnPoint = tunel->GetTurretSpawnPoint4();
+			SpawnTurret();
 		}
 		else {
 			ATunelDole* tunel = GetWorld()->SpawnActor<ATunelDole>(TunelTileClassDole, NextSpawnPoint);
@@ -332,6 +356,12 @@ void ARocket_gameGameMode::AddTunelTile()
 			tunelFlag = true;*/
 
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
+			SpawnTurret();
+			TurretSpawnPoint = tunel->GetTurretSpawnPoint2();
+			SpawnTurret();
+			TurretSpawnPoint = tunel->GetTurretSpawnPoint3();
+			SpawnTurret();
+			TurretSpawnPoint = tunel->GetTurretSpawnPoint4();
 			SpawnTurret();
 		}
 	}

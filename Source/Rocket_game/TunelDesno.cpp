@@ -38,6 +38,15 @@ ATunelDesno::ATunelDesno()
 	TurretSpawnPoint1 = CreateDefaultSubobject<UArrowComponent>(TEXT("Turret Spawn Point1"));
 	TurretSpawnPoint1->SetupAttachment(SceneComponent);
 
+	TurretSpawnPoint2 = CreateDefaultSubobject<UArrowComponent>(TEXT("Turret Spawn Point2"));
+	TurretSpawnPoint2->SetupAttachment(SceneComponent);
+
+	TurretSpawnPoint3 = CreateDefaultSubobject<UArrowComponent>(TEXT("Turret Spawn Point3"));
+	TurretSpawnPoint3->SetupAttachment(SceneComponent);
+
+	TurretSpawnPoint4 = CreateDefaultSubobject<UArrowComponent>(TEXT("Turret Spawn Point4"));
+	TurretSpawnPoint4->SetupAttachment(SceneComponent);
+
 	MaterialTunel = CreateDefaultSubobject<UMaterial>("MaterialTunel");
 
 	TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerBox"));
@@ -93,6 +102,24 @@ FTransform ATunelDesno::GetTurretSpawnPoint1()
 {
 	// TODO: insert return statement here
 	return TurretSpawnPoint1->GetComponentTransform();
+}
+
+FTransform ATunelDesno::GetTurretSpawnPoint2()
+{
+	// TODO: insert return statement here
+	return TurretSpawnPoint2->GetComponentTransform();
+}
+
+FTransform ATunelDesno::GetTurretSpawnPoint3()
+{
+	// TODO: insert return statement here
+	return TurretSpawnPoint3->GetComponentTransform();
+}
+
+FTransform ATunelDesno::GetTurretSpawnPoint4()
+{
+	// TODO: insert return statement here
+	return TurretSpawnPoint4->GetComponentTransform();
 }
 
 void ATunelDesno::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

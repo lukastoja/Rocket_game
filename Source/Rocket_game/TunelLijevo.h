@@ -30,6 +30,15 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Component")
 		FTransform GetTurretSpawnPoint1();
 
+	UFUNCTION(BlueprintPure, Category = "Component")
+		FTransform GetTurretSpawnPoint2();
+
+	UFUNCTION(BlueprintPure, Category = "Component")
+		FTransform GetTurretSpawnPoint3();
+
+	UFUNCTION(BlueprintPure, Category = "Component")
+		FTransform GetTurretSpawnPoint4();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -72,6 +81,15 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Components")
 		class UArrowComponent* TurretSpawnPoint1;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+		class UArrowComponent* TurretSpawnPoint2;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+		class UArrowComponent* TurretSpawnPoint3;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+		class UArrowComponent* TurretSpawnPoint4;
 
 public:	
 	// Called every frame
