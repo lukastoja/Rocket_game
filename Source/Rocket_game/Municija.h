@@ -15,7 +15,13 @@ public:
 	// Sets default values for this actor's properties
 	AMunicija();
 
-	void SetMunicija(int metak, int raketa);
+	UPROPERTY(EditAnywhere, Category = "Components")
+	int municija_metak;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+	int municija_raketa;
+
+	int test;
 
 protected:
 	// Called when the game starts or when spawned
@@ -23,12 +29,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Components")
 	UStaticMeshComponent* StaticMesh;
-
-	UPROPERTY(EditAnywhere, Category = "Components")
-	int municija_metak;
-
-	UPROPERTY(EditAnywhere, Category = "Components")
-	int municija_raketa;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
 	class UBoxComponent* MyBoxComponent;
@@ -52,4 +52,12 @@ public:
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	UFUNCTION()
+	void SetMunicija(int metak, int raketa);
+
+	UFUNCTION()
+	int GetMetak();
+
+	UFUNCTION()
+	int GetRaketa();
 };

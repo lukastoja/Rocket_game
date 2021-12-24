@@ -44,10 +44,24 @@ void AMunicija::SetMunicija(int metak, int raketa)
 	municija_raketa = raketa;
 }
 
+int AMunicija::GetMetak()
+{
+	return municija_metak;
+}
+
+int AMunicija::GetRaketa()
+{
+	return municija_raketa;
+}
+
+
 // Called when the game starts or when spawned
 void AMunicija::BeginPlay()
 {
 	Super::BeginPlay();
+
+	municija_metak = 10;
+	municija_raketa = 10;
 
 	StaticMesh->SetMaterial(0, MaterialMunicija);
 }
@@ -65,6 +79,8 @@ void AMunicija::Tick(float DeltaTime)
 	okretanje = FRotator(0.f, rotacija, 0.f);
 
 	StaticMesh->SetWorldRotation(okretanje);
+
+	test = 10;
 }
 
 void AMunicija::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
