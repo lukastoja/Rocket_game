@@ -25,7 +25,7 @@ ARocket_gameGameMode::ARocket_gameGameMode()
 	DefaultPawnClass = ARocket_gamePawn::StaticClass();
 
 	PlayerControllerClass = ARocketPlayerController::StaticClass();
-
+	SpawnPoint = FTransform(FVector(1, 1, 1));
 }
 
 void ARocket_gameGameMode::SetScore(int score1)
@@ -48,20 +48,21 @@ void ARocket_gameGameMode::Spawn_loc()
 {
 	//napraviti da se može u ciejlom krugu postavljati portal
 	float r = FMath::RandRange(0, 1310);
-	float x = SpawnPoint.GetLocation().X;
-	float y = SpawnPoint.GetLocation().Y + FMath::RandRange(-r, r);
+	float x = 0;
+	float y = FMath::RandRange(-r, r);
 	float z = 0;
+
 	int vjv = FMath::RandRange(0, 100);
 	
+	z = FMath::Sqrt(FMath::Pow(r, 2) - FMath::Pow(y, 2));
+
 	if (vjv < 50)
 	{
-		z = SpawnPoint.GetLocation().Z + FMath::Sqrt(FMath::Pow(r, 2) - FMath::Pow(y, 2));
-	} else {
-		z = SpawnPoint.GetLocation().Z - FMath::Sqrt(FMath::Pow(r, 2) - FMath::Pow(y, 2));
+		z = -z;
 	}
 
 	FTransform PortalSpawnTransform;
-	PortalSpawnTransform.SetLocation(FVector(x,y,z));
+	PortalSpawnTransform.SetLocation(FVector(x,y,z) + SpawnPoint.GetLocation());
 
 	SpawnPoint = PortalSpawnTransform;
 }
@@ -120,9 +121,7 @@ void ARocket_gameGameMode::Spawn1(int vjerojatnost)
 		int metak = 0;
 		SetMunicijaPar(&metak, &raketa);
 		AMunicija* municija = GetWorld()->SpawnActor<AMunicija>(MunicijaClass, SpawnPoint);
-		//municija->SetMunicija(metak, raketa);
-		//municija->municija_raketa = raketa;
-		//municija->municija_metak = metak;
+		municija->SetMunicija(metak, raketa);
 	}
 	else if (vjerojatnost < 90)
 	{
@@ -137,16 +136,14 @@ void ARocket_gameGameMode::Spawn2(int vjerojatnost)
 		Spawn_loc();
 		APortal* portal = GetWorld()->SpawnActor<APortal>(PortalClass, SpawnPoint);
 	}
-	else if (vjerojatnost < 65)
+	else if (vjerojatnost < 50)
 	{
 		Spawn_loc();
 		int raketa = 0;
 		int metak = 0;
 		SetMunicijaPar(&metak, &raketa);
 		AMunicija* municija = GetWorld()->SpawnActor<AMunicija>(MunicijaClass, SpawnPoint);
-		//municija->SetMunicija(metak, raketa);
-		//municija->municija_raketa = raketa;
-		//municija->municija_metak = metak;
+		municija->SetMunicija(metak, raketa);
 	}
 	else if (vjerojatnost < 90)
 	{
@@ -156,7 +153,7 @@ void ARocket_gameGameMode::Spawn2(int vjerojatnost)
 
 void ARocket_gameGameMode::Spawn3(int vjerojatnost)
 {
-	if(vjerojatnost < 25)
+	if (vjerojatnost < 25)
 	{
 		Spawn_loc();
 		APortal* portal = GetWorld()->SpawnActor<APortal>(PortalClass, SpawnPoint);
@@ -169,8 +166,6 @@ void ARocket_gameGameMode::Spawn3(int vjerojatnost)
 		SetMunicijaPar(&metak, &raketa);
 		AMunicija* municija = GetWorld()->SpawnActor<AMunicija>(MunicijaClass, SpawnPoint);
 		municija->SetMunicija(metak, raketa);
-		municija->municija_raketa = raketa;
-		municija->municija_metak = metak;
 	}
 	else if (vjerojatnost < 90)
 	{
@@ -225,20 +220,20 @@ void ARocket_gameGameMode::AddTunelTile()
 			}
 			tunelFlag = true;
 
-			TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
+			/*TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
 			SpawnTurret();
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint2();
 			SpawnTurret();
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint3();
 			SpawnTurret();
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint4();
-			SpawnTurret();
+			SpawnTurret();*/
 		}
-		else if (m > 6){
-			ATunelDesno* tunel = GetWorld()->SpawnActor<ATunelDesno>(TunelTileClassDesno, NextSpawnPoint);
-			if (tunel)
+		else if (m > 6) {
+			ATunelDesno* tunelD = GetWorld()->SpawnActor<ATunelDesno>(TunelTileClassDesno, NextSpawnPoint);
+			if (tunelD)
 			{
-				NextSpawnPoint = tunel->GetAttachTransform();
+				NextSpawnPoint = tunelD->GetAttachTransform();
 			}
 
 			//odlucivanje sto ce se spawnat na koji spawn point
@@ -248,31 +243,31 @@ void ARocket_gameGameMode::AddTunelTile()
 				int spawnpoint2 = FMath::RandRange(0, 100);
 				int spawnpoint3 = FMath::RandRange(0, 100);
 
-				SpawnPoint = tunel->GetSpawnPoint1();
+				SpawnPoint = tunelD->GetSpawnPoint1();
 				Spawn1(spawnpoint1);
 
-				SpawnPoint = tunel->GetSpawnPoint2();
+				SpawnPoint = tunelD->GetSpawnPoint2();
 				Spawn2(spawnpoint2);
 
-				SpawnPoint = tunel->GetSpawnPoint3();
+				SpawnPoint = tunelD->GetSpawnPoint3();
 				Spawn3(spawnpoint3);
 			}
 			tunelFlag = true;
 
-			TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
+			/*TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
 			SpawnTurret();
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint2();
 			SpawnTurret();
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint3();
 			SpawnTurret();
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint4();
-			SpawnTurret();
+			SpawnTurret();*/
 		}
 		else if (m > 4) {
-			ATunelLijevo* tunel = GetWorld()->SpawnActor<ATunelLijevo>(TunelTileClassLijevo, NextSpawnPoint);
-			if (tunel)
+			ATunelLijevo* tunelL = GetWorld()->SpawnActor<ATunelLijevo>(TunelTileClassLijevo, NextSpawnPoint);
+			if (tunelL)
 			{
-				NextSpawnPoint = tunel->GetAttachTransform();
+				NextSpawnPoint = tunelL->GetAttachTransform();
 			}
 
 			//odlucivanje sto ce se spawnat na koji spawn point
@@ -282,31 +277,31 @@ void ARocket_gameGameMode::AddTunelTile()
 				int spawnpoint2 = FMath::RandRange(0, 100);
 				int spawnpoint3 = FMath::RandRange(0, 100);
 
-				SpawnPoint = tunel->GetSpawnPoint1();
+				SpawnPoint = tunelL->GetSpawnPoint1();
 				Spawn1(spawnpoint1);
 
-				SpawnPoint = tunel->GetSpawnPoint2();
+				SpawnPoint = tunelL->GetSpawnPoint2();
 				Spawn2(spawnpoint2);
 
-				SpawnPoint = tunel->GetSpawnPoint3();
+				SpawnPoint = tunelL->GetSpawnPoint3();
 				Spawn3(spawnpoint3);
 			}
 			tunelFlag = true;
 
-			TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
+			/*TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
 			SpawnTurret();
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint2();
 			SpawnTurret();
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint3();
 			SpawnTurret();
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint4();
-			SpawnTurret();
+			SpawnTurret();*/
 		}
 		else if (m > 2) {
-			ATunelGore* tunel = GetWorld()->SpawnActor<ATunelGore>(TunelTileClassGore, NextSpawnPoint);
-			if (tunel)
+			ATunelGore* tunelG = GetWorld()->SpawnActor<ATunelGore>(TunelTileClassGore, NextSpawnPoint);
+			if (tunelG)
 			{
-				NextSpawnPoint = tunel->GetAttachTransform();
+				NextSpawnPoint = tunelG->GetAttachTransform();
 			}
 
 			//odlucivanje sto ce se spawnat na koji spawn point
@@ -316,31 +311,31 @@ void ARocket_gameGameMode::AddTunelTile()
 				int spawnpoint2 = FMath::RandRange(0, 100);
 				int spawnpoint3 = FMath::RandRange(0, 100);
 
-				SpawnPoint = tunel->GetSpawnPoint1();
+				SpawnPoint = tunelG->GetSpawnPoint1();
 				Spawn1(spawnpoint1);
 
-				SpawnPoint = tunel->GetSpawnPoint2();
+				SpawnPoint = tunelG->GetSpawnPoint2();
 				Spawn2(spawnpoint2);
 
-				SpawnPoint = tunel->GetSpawnPoint3();
+				SpawnPoint = tunelG->GetSpawnPoint3();
 				Spawn3(spawnpoint3);
 			}
 			tunelFlag = true;
 
-			TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
+			/*TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
 			SpawnTurret();
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint2();
 			SpawnTurret();
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint3();
 			SpawnTurret();
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint4();
-			SpawnTurret();
+			SpawnTurret();*/
 		}
-		else {
-			ATunelDole* tunel = GetWorld()->SpawnActor<ATunelDole>(TunelTileClassDole, NextSpawnPoint);
+		/*else {
+			ATunelDole* tunelDL = GetWorld()->SpawnActor<ATunelDole>(TunelTileClassDole, NextSpawnPoint);
 			if (tunel)
 			{
-				NextSpawnPoint = tunel->GetAttachTransform();
+				NextSpawnPoint = tunelDL->GetAttachTransform();
 			}
 
 			//odlucivanje sto ce se spawnat na koji spawn point
@@ -350,18 +345,18 @@ void ARocket_gameGameMode::AddTunelTile()
 				int spawnpoint2 = FMath::RandRange(0, 100);
 				int spawnpoint3 = FMath::RandRange(0, 100);
 
-				SpawnPoint = tunel->GetSpawnPoint1();
+				SpawnPoint = tunelDL->GetSpawnPoint1();
 				Spawn1(spawnpoint1);
 
-				SpawnPoint = tunel->GetSpawnPoint2();
+				SpawnPoint = tunelDL->GetSpawnPoint2();
 				Spawn2(spawnpoint2);
 
-				SpawnPoint = tunel->GetSpawnPoint3();
+				SpawnPoint = tunelDL->GetSpawnPoint3();
 				Spawn3(spawnpoint3);
 			}
 			tunelFlag = true;
 
-			TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
+			/*TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
 			SpawnTurret();
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint2();
 			SpawnTurret();
@@ -369,7 +364,7 @@ void ARocket_gameGameMode::AddTunelTile()
 			SpawnTurret();
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint4();
 			SpawnTurret();
-		}
+		}*/
 	}
 }
 
