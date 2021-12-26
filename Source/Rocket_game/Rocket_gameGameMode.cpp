@@ -63,6 +63,7 @@ void ARocket_gameGameMode::Spawn_loc()
 
 	FTransform PortalSpawnTransform;
 	PortalSpawnTransform.SetLocation(FVector(x,y,z) + SpawnPoint.GetLocation());
+	PortalSpawnTransform.SetRotation(SpawnPoint.GetRotation());
 
 	SpawnPoint = PortalSpawnTransform;
 }
@@ -331,9 +332,9 @@ void ARocket_gameGameMode::AddTunelTile()
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint4();
 			SpawnTurret();*/
 		}
-		/*else {
+		else {
 			ATunelDole* tunelDL = GetWorld()->SpawnActor<ATunelDole>(TunelTileClassDole, NextSpawnPoint);
-			if (tunel)
+			if (tunelDL)
 			{
 				NextSpawnPoint = tunelDL->GetAttachTransform();
 			}
@@ -363,8 +364,8 @@ void ARocket_gameGameMode::AddTunelTile()
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint3();
 			SpawnTurret();
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint4();
-			SpawnTurret();
-		}*/
+			SpawnTurret();*/
+		}
 	}
 }
 
