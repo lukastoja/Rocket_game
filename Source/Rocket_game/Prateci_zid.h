@@ -24,6 +24,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Components")
 	int udaljenost;
 
+	bool flag;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

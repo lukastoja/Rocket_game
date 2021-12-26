@@ -63,7 +63,7 @@ void ARocket_gameGameMode::Spawn_loc()
 
 	FTransform PortalSpawnTransform;
 	PortalSpawnTransform.SetLocation(FVector(x,y,z) + SpawnPoint.GetLocation());
-	PortalSpawnTransform.SetRotation(SpawnPoint.GetRotation());
+	PortalSpawnTransform.SetRotation(SpawnPoint.GetRotation()); //ovdje treba popravit rotaciju spawna da uviejk gleda prema playeru
 
 	SpawnPoint = PortalSpawnTransform;
 }
