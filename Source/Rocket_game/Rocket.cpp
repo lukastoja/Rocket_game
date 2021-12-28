@@ -7,6 +7,7 @@
 #include "Materials/Material.h"
 #include "Components/StaticMeshComponent.h"
 #include "Turret.h"
+#include "Particles/ParticleSystem.h"
 
 // Sets default values
 ARocket::ARocket()
@@ -41,7 +42,9 @@ ARocket::ARocket()
 	RocketUpStab4Mesh = CreateDefaultSubobject<UStaticMeshComponent>("RocketUpStab4Mesh");
 	RocketUpStab4Mesh->SetupAttachment(RootComponent);
 
-	initialForwardVector = GetActorForwardVector();
+	RocketSmoke = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("RocketSmoke"));
+	RocketSmoke->SetupAttachment(RocketMainMesh);
+
 	targetSet = false;
 
 	OnActorHit.AddDynamic(this, &ARocket::OnBulletHit);
@@ -63,6 +66,8 @@ float ARocket::EaseInOutQuad(float t)
 // Called when the game starts or when spawned
 void ARocket::BeginPlay()
 {	
+	Super::BeginPlay();
+
 	t_init = 0.5;
 	t_rest = 0.8;
 	t_speedup = 0.8;
@@ -71,8 +76,7 @@ void ARocket::BeginPlay()
 	resting_distance = 10;
 	previous_elapsed_time = 0;
 	elapsed_time_boundingBox = 0;
-
-	Super::BeginPlay();
+	initialForwardVector = GetActorForwardVector();
 }
 
 // Called every frame

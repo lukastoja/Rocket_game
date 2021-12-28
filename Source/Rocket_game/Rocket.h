@@ -96,8 +96,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Components")
 	bool targetSet;
 
-	/*UPROPERTY(EditAnywhere, Category = "Components")
-		target*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ThrowPosition")
+	UParticleSystemComponent* RocketSmoke;
 
 protected:
 	// Called when the game starts or when spawned

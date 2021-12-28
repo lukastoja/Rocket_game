@@ -127,7 +127,7 @@ void ARocket_gamePawn::Destroy_Pawn()
 {
 	URocketGameInstance* GI = Cast<URocketGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	GI->score = score;
-	GI->scoreboard[11] = score;
+	GI->scoreboard[10] = score;
 	GI->sortScoreboard();
 	UE_LOG(LogTemp, Warning, TEXT("coins: %d"), GI->coins);
 	GI->setCoins();

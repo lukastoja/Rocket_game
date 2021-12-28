@@ -79,7 +79,7 @@ void APrateci_zid::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 		FRotator finalRotation = finalDest.GetRotation().Rotator();
 		FLatentActionInfo LatentInfo;
 		LatentInfo.CallbackTarget = this;
-		UKismetSystemLibrary::MoveComponentTo(RootComponent, finalLocation, finalRotation, false, false, 10.f, true, EMoveComponentAction::Type::Move, LatentInfo);
+		UKismetSystemLibrary::MoveComponentTo(RootComponent, finalLocation, finalRotation, false, false, 12.f, true, EMoveComponentAction::Type::Move, LatentInfo);
 		flag = false;
 	}
 	if (Cast<ATunelDole>(OtherActor) != nullptr)
@@ -89,7 +89,7 @@ void APrateci_zid::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 		FRotator finalRotation = finalDest.GetRotation().Rotator();
 		FLatentActionInfo LatentInfo;
 		LatentInfo.CallbackTarget = this;
-		UKismetSystemLibrary::MoveComponentTo(RootComponent, finalLocation, finalRotation, false, false, 10.f, true, EMoveComponentAction::Type::Move, LatentInfo);
+		UKismetSystemLibrary::MoveComponentTo(RootComponent, finalLocation, finalRotation, false, false, 12.f, true, EMoveComponentAction::Type::Move, LatentInfo);
 		flag = false;
 	}
 	if (Cast<ATunelGore>(OtherActor) != nullptr)
@@ -99,7 +99,7 @@ void APrateci_zid::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 		FRotator finalRotation = finalDest.GetRotation().Rotator();
 		FLatentActionInfo LatentInfo;
 		LatentInfo.CallbackTarget = this;
-		UKismetSystemLibrary::MoveComponentTo(RootComponent, finalLocation, finalRotation, false, false, 10.f, true, EMoveComponentAction::Type::Move, LatentInfo);
+		UKismetSystemLibrary::MoveComponentTo(RootComponent, finalLocation, finalRotation, false, false, 12.f, true, EMoveComponentAction::Type::Move, LatentInfo);
 		flag = false;
 	}
 	if (Cast<ATunelLijevo>(OtherActor) != nullptr)
@@ -109,7 +109,7 @@ void APrateci_zid::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 		FRotator finalRotation = finalDest.GetRotation().Rotator();
 		FLatentActionInfo LatentInfo;
 		LatentInfo.CallbackTarget = this;
-		UKismetSystemLibrary::MoveComponentTo(RootComponent, finalLocation, finalRotation, false, false, 10.f, true, EMoveComponentAction::Type::Move, LatentInfo);
+		UKismetSystemLibrary::MoveComponentTo(RootComponent, finalLocation, finalRotation, false, false, 12.f, true, EMoveComponentAction::Type::Move, LatentInfo);
 		flag = false;
 	}
 }
