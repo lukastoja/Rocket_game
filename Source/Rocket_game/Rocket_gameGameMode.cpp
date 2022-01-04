@@ -18,6 +18,7 @@
 #include "Municija.h"
 #include "Prepreka_zid.h"
 #include "Turret.h"
+#include "GenericPlatform/GenericPlatformMath.h"
 
 ARocket_gameGameMode::ARocket_gameGameMode()
 {
@@ -26,6 +27,7 @@ ARocket_gameGameMode::ARocket_gameGameMode()
 
 	PlayerControllerClass = ARocketPlayerController::StaticClass();
 	SpawnPoint = FTransform(FVector(1, 1, 1));
+	prosliTunel = 0;
 }
 
 void ARocket_gameGameMode::SetScore(int score1)
@@ -42,6 +44,21 @@ int ARocket_gameGameMode::GetScore()
 		return GS->score;
 	}
 	return 100;
+}
+
+void ARocket_gameGameMode::interpolate()
+{
+	for (int i = 0; i < 5; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			float t = tunelBR / 10.f;
+			FGenericPlatformMath::Min(t, 1.f);
+			FGenericPlatformMath::Max(0.f, t);
+			interpolated_mat[i][j] = start_mat[i][j] * (1 - t) + end_mat[i][j] * t;
+		}
+	}
+
 }
 
 void ARocket_gameGameMode::Spawn_loc()
@@ -193,8 +210,31 @@ void ARocket_gameGameMode::AddTunelTile()
 
 	if (World)
 	{
-		int m = FMath::RandRange(1, 10);
-		if (m > 8)
+		int odabir = 0;
+
+		float choice = FMath::RandRange(0, 100) / 100.f;
+		if (choice <= interpolated_mat[prosliTunel][0])
+		{
+			odabir = 0;
+		}
+		else if (choice <= interpolated_mat[prosliTunel][1] + interpolated_mat[prosliTunel][0])
+		{
+			odabir = 1;
+		}
+		else if (choice <= interpolated_mat[prosliTunel][2] + interpolated_mat[prosliTunel][1] + interpolated_mat[prosliTunel][0])
+		{
+			odabir = 2;
+		}
+		else if (choice <= interpolated_mat[prosliTunel][3] + interpolated_mat[prosliTunel][2] + interpolated_mat[prosliTunel][1] + interpolated_mat[prosliTunel][0])
+		{
+			odabir = 3;
+		}
+		else
+		{
+			odabir = 4;
+		}
+
+		if (odabir == 0)
 		{
 			ATunel* tunel = GetWorld()->SpawnActor<ATunel>(TunelTileClass, NextSpawnPoint);
 			if (tunel)
@@ -220,6 +260,7 @@ void ARocket_gameGameMode::AddTunelTile()
 
 			}
 			tunelFlag = true;
+			prosliTunel = 0;
 
 			/*TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
 			SpawnTurret();
@@ -230,7 +271,7 @@ void ARocket_gameGameMode::AddTunelTile()
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint4();
 			SpawnTurret();*/
 		}
-		else if (m > 6) {
+		else if (odabir == 1) {
 			ATunelDesno* tunelD = GetWorld()->SpawnActor<ATunelDesno>(TunelTileClassDesno, NextSpawnPoint);
 			if (tunelD)
 			{
@@ -254,6 +295,7 @@ void ARocket_gameGameMode::AddTunelTile()
 				Spawn3(spawnpoint3);
 			}
 			tunelFlag = true;
+			prosliTunel = 1;
 
 			/*TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
 			SpawnTurret();
@@ -264,7 +306,7 @@ void ARocket_gameGameMode::AddTunelTile()
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint4();
 			SpawnTurret();*/
 		}
-		else if (m > 4) {
+		else if (odabir == 2) {
 			ATunelLijevo* tunelL = GetWorld()->SpawnActor<ATunelLijevo>(TunelTileClassLijevo, NextSpawnPoint);
 			if (tunelL)
 			{
@@ -288,6 +330,7 @@ void ARocket_gameGameMode::AddTunelTile()
 				Spawn3(spawnpoint3);
 			}
 			tunelFlag = true;
+			prosliTunel = 2;
 
 			/*TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
 			SpawnTurret();
@@ -298,7 +341,7 @@ void ARocket_gameGameMode::AddTunelTile()
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint4();
 			SpawnTurret();*/
 		}
-		else if (m > 2) {
+		else if (odabir == 3) {
 			ATunelGore* tunelG = GetWorld()->SpawnActor<ATunelGore>(TunelTileClassGore, NextSpawnPoint);
 			if (tunelG)
 			{
@@ -322,6 +365,7 @@ void ARocket_gameGameMode::AddTunelTile()
 				Spawn3(spawnpoint3);
 			}
 			tunelFlag = true;
+			prosliTunel = 3;
 
 			/*TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
 			SpawnTurret();
@@ -356,6 +400,7 @@ void ARocket_gameGameMode::AddTunelTile()
 				Spawn3(spawnpoint3);
 			}
 			tunelFlag = true;
+			prosliTunel = 4;
 
 			/*TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
 			SpawnTurret();
@@ -367,6 +412,9 @@ void ARocket_gameGameMode::AddTunelTile()
 			SpawnTurret();*/
 		}
 	}
+
+	tunelBR++;
+	interpolate();
 }
 
 

@@ -18,6 +18,8 @@ AMunicija::AMunicija()
 	PrimaryActorTick.bCanEverTick = true;
 
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("StaticMesh");
+	StaticMeshMetak = CreateDefaultSubobject<UStaticMeshComponent>("StaticMeshMetak");
+	StaticMeshRaketa = CreateDefaultSubobject<UStaticMeshComponent>("StaticMeshRaketa");
 	MaterialMunicija = CreateDefaultSubobject<UMaterial>("MaterialMunicija");
 
 	municija_metak = 10;
@@ -28,12 +30,16 @@ AMunicija::AMunicija()
 	MyBoxComponent->SetCollisionProfileName("Trigger");
 	SetRootComponent(MyBoxComponent);
 	StaticMesh->SetupAttachment(MyBoxComponent);
+	StaticMeshMetak->SetupAttachment(MyBoxComponent);
+	StaticMeshRaketa->SetupAttachment(MyBoxComponent);
 
 	MyBoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AMunicija::OnOverlapBegin);
 
 	okretanje = FRotator(0.f, 0.f, 0.f);
 
 	StaticMesh->SetWorldRotation(okretanje);
+	StaticMeshMetak->SetWorldRotation(okretanje);
+	StaticMeshRaketa->SetWorldRotation(okretanje);
 	koliko = 2.f;
 	rotacija = 0;
 }
@@ -42,6 +48,17 @@ void AMunicija::SetMunicija(int metak, int raketa)
 {
 	municija_metak = metak;
 	municija_raketa = raketa;
+
+	if (municija_raketa > 0)
+	{
+		StaticMeshMetak->SetVisibility(false);
+		StaticMeshRaketa->SetVisibility(true);
+	}
+	else
+	{
+		StaticMeshRaketa->SetVisibility(false);
+		StaticMeshMetak->SetVisibility(true);
+	}
 }
 
 int AMunicija::GetMetak()
@@ -62,8 +79,6 @@ void AMunicija::BeginPlay()
 
 	municija_metak = 10;
 	municija_raketa = 10;
-
-	StaticMesh->SetMaterial(0, MaterialMunicija);
 }
 
 // Called every frame
@@ -79,6 +94,8 @@ void AMunicija::Tick(float DeltaTime)
 	okretanje = FRotator(0.f, rotacija, 0.f);
 
 	StaticMesh->SetWorldRotation(okretanje);
+	StaticMeshMetak->SetWorldRotation(okretanje);
+	StaticMeshRaketa->SetWorldRotation(okretanje);
 
 	test = 10;
 }

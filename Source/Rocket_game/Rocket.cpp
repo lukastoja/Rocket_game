@@ -12,7 +12,7 @@
 // Sets default values
 ARocket::ARocket()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+ 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	RocketMainMesh = CreateDefaultSubobject<UStaticMeshComponent>("RocketMainMesh");
@@ -42,9 +42,6 @@ ARocket::ARocket()
 	RocketUpStab4Mesh = CreateDefaultSubobject<UStaticMeshComponent>("RocketUpStab4Mesh");
 	RocketUpStab4Mesh->SetupAttachment(RootComponent);
 
-	RocketSmoke = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("RocketSmoke"));
-	RocketSmoke->SetupAttachment(RocketMainMesh);
-
 	targetSet = false;
 
 	OnActorHit.AddDynamic(this, &ARocket::OnBulletHit);
@@ -65,15 +62,15 @@ float ARocket::EaseInOutQuad(float t)
 
 // Called when the game starts or when spawned
 void ARocket::BeginPlay()
-{	
+{
 	Super::BeginPlay();
-
+	
 	t_init = 0.5;
 	t_rest = 0.8;
 	t_speedup = 0.8;
 	t_hit = 0.5;
 	elapsed_time = 0;
-	resting_distance = 10;
+	resting_distance = 15;
 	previous_elapsed_time = 0;
 	elapsed_time_boundingBox = 0;
 	initialForwardVector = GetActorForwardVector();
@@ -127,8 +124,6 @@ void ARocket::Tick(float DeltaTime)
 		{
 			float delta = EaseInOutQuad(elapsed_time / t_init) - EaseInOutQuad(previous_elapsed_time / t_init);
 			float delta_movement = delta * resting_distance;
-			//Ovo ne znam kako napisati pa cu ovako: raketu treba pomaknuti u smjeru player_down_vec za udaljenost delta_movement
-			//Pomaknuti raketu u smjeru njenog forward vectora za velocity * delta_time
 			FVector Location = GetActorLocation() + player_down_vec * delta_movement + GetActorForwardVector() * delta * (-400);
 			SetActorLocation(Location);
 
@@ -168,6 +163,7 @@ void ARocket::Tick(float DeltaTime)
 	velocity = FMath::Clamp(newVelocity, 500.f, 10000.f);
 }
 
+
 void ARocket::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
 	if (Cast<ATurret>(OtherActor) != nullptr)
@@ -175,3 +171,4 @@ void ARocket::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 		Cast<ATurret>(OtherActor)->Destroy();
 	}
 }
+

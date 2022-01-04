@@ -16,88 +16,85 @@ public:
 	ARocket();
 
 	UPROPERTY(EditAnywhere, Category = "Material")
-	class UMaterial* MaterialRocket;
+		class UMaterial* MaterialRocket;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	UStaticMeshComponent* RocketMainMesh;
+		UStaticMeshComponent* RocketMainMesh;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	UStaticMeshComponent* RocketDownStab1Mesh;
+		UStaticMeshComponent* RocketDownStab1Mesh;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	UStaticMeshComponent* RocketDownStab2Mesh;
+		UStaticMeshComponent* RocketDownStab2Mesh;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	UStaticMeshComponent* RocketDownStab3Mesh;
+		UStaticMeshComponent* RocketDownStab3Mesh;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	UStaticMeshComponent* RocketDownStab31Mesh;
+		UStaticMeshComponent* RocketDownStab31Mesh;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	UStaticMeshComponent* RocketUpStab1Mesh;
+		UStaticMeshComponent* RocketUpStab1Mesh;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	UStaticMeshComponent* RocketUpStab2Mesh;
+		UStaticMeshComponent* RocketUpStab2Mesh;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	UStaticMeshComponent* RocketUpStab3Mesh;
+		UStaticMeshComponent* RocketUpStab3Mesh;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	UStaticMeshComponent* RocketUpStab4Mesh;
-	
-	UPROPERTY(EditAnywhere, Category = "Components")
-	float t_init;
-	
-	UPROPERTY(EditAnywhere, Category = "Components")
-	float t_rest;
+		UStaticMeshComponent* RocketUpStab4Mesh;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	float t_speedup;
+		float t_init;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	float t_hit;
+		float t_rest;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	float elapsed_time;
+		float t_speedup;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	float elapsed_time_boundingBox;
+		float t_hit;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	float previous_elapsed_time;
+		float elapsed_time;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	float resting_distance;
+		float elapsed_time_boundingBox;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	FVector player_down_vec;
+		float previous_elapsed_time;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	float velocity;
+		float resting_distance;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	float init_player_velocity;
+		FVector player_down_vec;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	float max_velocity;
+		float velocity;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	float player_acceleration;
+		float init_player_velocity;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	FVector initialForwardVector;
+		float max_velocity;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	FVector targetPos;
+		float player_acceleration;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	FVector boundingBoxEntrancerPoint;
+		FVector initialForwardVector;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	bool targetSet;
+		FVector targetPos;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ThrowPosition")
-	UParticleSystemComponent* RocketSmoke;
+	UPROPERTY(EditAnywhere, Category = "Components")
+		FVector boundingBoxEntrancerPoint;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+		bool targetSet;
 
 protected:
 	// Called when the game starts or when spawned
@@ -110,6 +107,5 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
-	void OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
-
+		void OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 };

@@ -31,6 +31,12 @@ protected:
 	UStaticMeshComponent* StaticMesh;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
+	UStaticMeshComponent* StaticMeshMetak;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+	UStaticMeshComponent* StaticMeshRaketa;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
 	class UBoxComponent* MyBoxComponent;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
