@@ -25,7 +25,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Category = "Components")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+	FVector TunelLocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	class UStaticMeshComponent* PortalUnutar;
 
 
@@ -59,4 +62,5 @@ public:
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	void PostaviRotaciju(FVector location);
 };

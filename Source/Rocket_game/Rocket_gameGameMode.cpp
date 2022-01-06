@@ -80,7 +80,7 @@ void ARocket_gameGameMode::Spawn_loc()
 
 	FTransform PortalSpawnTransform;
 	PortalSpawnTransform.SetLocation(FVector(x,y,z) + SpawnPoint.GetLocation());
-	PortalSpawnTransform.SetRotation(SpawnPoint.GetRotation()); //ovdje treba popravit rotaciju spawna da uviejk gleda prema playeru
+	PortalSpawnTransform.SetRotation(SpawnPoint.GetRotation());
 
 	SpawnPoint = PortalSpawnTransform;
 }
@@ -331,7 +331,7 @@ void ARocket_gameGameMode::AddTunelTile()
 			}
 			tunelFlag = true;
 			prosliTunel = 2;
-
+			
 			/*TurretSpawnPoint = tunel->GetTurretSpawnPoint1();
 			SpawnTurret();
 			TurretSpawnPoint = tunel->GetTurretSpawnPoint2();
@@ -440,9 +440,9 @@ void ARocket_gameGameMode::BeginPlay()
 	else {
 		if (PC)
 		{
-			PC->bShowMouseCursor = false;
-			PC->bEnableClickEvents = false;
-			PC->bEnableMouseOverEvents = false;
+			PC->bShowMouseCursor = true;
+			PC->bEnableClickEvents = true;
+			PC->bEnableMouseOverEvents = true;
 		}
 		CreatInitialTunelTiles();
 	}

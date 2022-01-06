@@ -99,13 +99,13 @@ void APortal::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	x = x + spin;
+	/*x = x + spin;
 	if (x > 360 || x < -360)
 	{
 		x = 0;
 	}
 
-	RootComponent->SetWorldRotation(FRotator(y, z, x));
+	RootComponent->SetWorldRotation(FRotator(y, z, x));*/
 }
 
 void APortal::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -125,5 +125,10 @@ void APortal::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 	{
 		Destroy();
 	}
+}
+
+void APortal::PostaviRotaciju(FVector location)
+{
+	TunelLocation = location;
 }
 
