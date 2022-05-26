@@ -18,10 +18,10 @@ APrepreka_zid::APrepreka_zid()
 {
 	// Create static mesh component
 	zid = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Zid_Mesh"));
-	SetRootComponent(zid);
-
 	BoxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
-	BoxComp->SetupAttachment(RootComponent);
+
+	SetRootComponent(BoxComp);
+	zid->SetupAttachment(RootComponent);
 
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -96,6 +96,8 @@ void APrepreka_zid::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 		int score = Cast<ARocket_gamePawn>(test)->GetScoreInt();
 		score++;
 		Cast<ARocket_gamePawn>(test)->SetScore(score);
+		Cast<ARocket>(OtherActor)->Destroy();
+
 
 		Destroy();
 	}

@@ -133,7 +133,6 @@ void ARocket::Tick(float DeltaTime)
 		}
 		else if (elapsed_time < t_init + t_rest)
 		{
-			//Pomaknuti raketu u smjeru njenog forward vectora za velocity * delta_time
 			FVector Location = GetActorLocation();
 			Location += GetActorForwardVector() * velocity * DeltaTime;
 			SetActorLocation(Location);
@@ -141,7 +140,6 @@ void ARocket::Tick(float DeltaTime)
 		}
 		else if (elapsed_time < t_init + t_rest + t_speedup)
 		{
-			//Pomaknuti raketu u smjeru njenog forward vektora za velocity * delta_time
 			float velocity1 = velocity + EaseInOutQuad((elapsed_time - t_init - t_rest) / t_speedup) * max_velocity;
 
 			FVector Location = GetActorLocation();

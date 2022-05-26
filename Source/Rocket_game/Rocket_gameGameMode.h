@@ -57,6 +57,9 @@ public:
 		FTransform NextSpawnPoint;
 
 	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
+		FTransform TunelSpawnPoint;
+
+	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
 		FTransform SpawnPoint;
 
 	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
@@ -104,6 +107,9 @@ public:
 	FString labels[5] = { "straight", "up", "down", "left", "right" };
 
 	int prosliTunel;
+
+	int rotacijaTunela;
+
 protected:
 	bool tunelFlag;
 };

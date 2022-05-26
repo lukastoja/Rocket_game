@@ -19,8 +19,8 @@ ABullet::ABullet()
 	SetRootComponent(BulletMesh);
 
 	BulletMovement = CreateDefaultSubobject<UProjectileMovementComponent>("BulletMovement");
-	BulletMovement->InitialSpeed = 3500.f;
-	BulletMovement->MaxSpeed = 3500.f;
+	BulletMovement->InitialSpeed = 15000.f;
+	BulletMovement->MaxSpeed = 15000.f;
 	BulletMovement->ProjectileGravityScale = 0;
 
 	MaterialBullet = CreateDefaultSubobject<UMaterial>("MaterialBullet");

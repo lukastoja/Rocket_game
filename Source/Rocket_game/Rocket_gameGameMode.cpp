@@ -28,6 +28,7 @@ ARocket_gameGameMode::ARocket_gameGameMode()
 	PlayerControllerClass = ARocketPlayerController::StaticClass();
 	SpawnPoint = FTransform(FVector(1, 1, 1));
 	prosliTunel = 0;
+	rotacijaTunela = 0;
 }
 
 void ARocket_gameGameMode::SetScore(int score1)
@@ -63,8 +64,7 @@ void ARocket_gameGameMode::interpolate()
 
 void ARocket_gameGameMode::Spawn_loc()
 {
-	//napraviti da se može u ciejlom krugu postavljati portal
-	float r = FMath::RandRange(0, 1310);
+	float r = FMath::RandRange(0, 500);
 	float x = 0;
 	float y = FMath::RandRange(-r, r);
 	float z = 0;
@@ -131,6 +131,7 @@ void ARocket_gameGameMode::Spawn1(int vjerojatnost)
 	{
 		Spawn_loc();
 		APortal* portal = GetWorld()->SpawnActor<APortal>(PortalClass, SpawnPoint);
+		portal->TunelLocation = TunelSpawnPoint.GetLocation();
 	}
 	else if (vjerojatnost < 50)
 	{
@@ -143,6 +144,7 @@ void ARocket_gameGameMode::Spawn1(int vjerojatnost)
 	}
 	else if (vjerojatnost < 90)
 	{
+		Spawn_loc();
 		Spawn_prepreka();
 	}
 }
@@ -153,6 +155,7 @@ void ARocket_gameGameMode::Spawn2(int vjerojatnost)
 	{
 		Spawn_loc();
 		APortal* portal = GetWorld()->SpawnActor<APortal>(PortalClass, SpawnPoint);
+		portal->TunelLocation = TunelSpawnPoint.GetLocation();
 	}
 	else if (vjerojatnost < 50)
 	{
@@ -175,6 +178,7 @@ void ARocket_gameGameMode::Spawn3(int vjerojatnost)
 	{
 		Spawn_loc();
 		APortal* portal = GetWorld()->SpawnActor<APortal>(PortalClass, SpawnPoint);
+		portal->TunelLocation = TunelSpawnPoint.GetLocation();
 	}
 	else if (vjerojatnost < 65)
 	{
@@ -228,10 +232,22 @@ void ARocket_gameGameMode::AddTunelTile()
 		else if (choice <= interpolated_mat[prosliTunel][3] + interpolated_mat[prosliTunel][2] + interpolated_mat[prosliTunel][1] + interpolated_mat[prosliTunel][0])
 		{
 			odabir = 3;
+			rotacijaTunela = rotacijaTunela + 20;
+			if (rotacijaTunela >= 150)
+			{
+				odabir = 4;
+				rotacijaTunela = rotacijaTunela - 40;
+			}
 		}
 		else
 		{
 			odabir = 4;
+			rotacijaTunela = rotacijaTunela - 20;
+			if (rotacijaTunela <= -150)
+			{
+				odabir = 3;
+				rotacijaTunela = rotacijaTunela + 40;
+			}
 		}
 
 		if (odabir == 0)
@@ -239,6 +255,7 @@ void ARocket_gameGameMode::AddTunelTile()
 			ATunel* tunel = GetWorld()->SpawnActor<ATunel>(TunelTileClass, NextSpawnPoint);
 			if (tunel)
 			{
+				TunelSpawnPoint = tunel->GetActorTransform();;
 				NextSpawnPoint = tunel->GetAttachTransform();
 			}
 
@@ -275,6 +292,7 @@ void ARocket_gameGameMode::AddTunelTile()
 			ATunelDesno* tunelD = GetWorld()->SpawnActor<ATunelDesno>(TunelTileClassDesno, NextSpawnPoint);
 			if (tunelD)
 			{
+				TunelSpawnPoint = tunelD->GetActorTransform();;
 				NextSpawnPoint = tunelD->GetAttachTransform();
 			}
 
@@ -310,6 +328,7 @@ void ARocket_gameGameMode::AddTunelTile()
 			ATunelLijevo* tunelL = GetWorld()->SpawnActor<ATunelLijevo>(TunelTileClassLijevo, NextSpawnPoint);
 			if (tunelL)
 			{
+				TunelSpawnPoint = tunelL->GetActorTransform();
 				NextSpawnPoint = tunelL->GetAttachTransform();
 			}
 
@@ -345,6 +364,7 @@ void ARocket_gameGameMode::AddTunelTile()
 			ATunelGore* tunelG = GetWorld()->SpawnActor<ATunelGore>(TunelTileClassGore, NextSpawnPoint);
 			if (tunelG)
 			{
+				TunelSpawnPoint = tunelG->GetActorTransform();;
 				NextSpawnPoint = tunelG->GetAttachTransform();
 			}
 
@@ -380,6 +400,7 @@ void ARocket_gameGameMode::AddTunelTile()
 			ATunelDole* tunelDL = GetWorld()->SpawnActor<ATunelDole>(TunelTileClassDole, NextSpawnPoint);
 			if (tunelDL)
 			{
+				TunelSpawnPoint = tunelDL->GetActorTransform();
 				NextSpawnPoint = tunelDL->GetAttachTransform();
 			}
 

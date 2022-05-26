@@ -21,12 +21,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Components")
 	FTimerHandle DestroyHandle;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+		FVector TunelLocation;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
-	FVector TunelLocation;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	class UStaticMeshComponent* PortalUnutar;
