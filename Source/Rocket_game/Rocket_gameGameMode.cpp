@@ -53,7 +53,7 @@ void ARocket_gameGameMode::interpolate()
 	{
 		for (int j = 0; j < 5; j++)
 		{
-			float t = tunelBR / 10.f;
+			float t = tunelBR / 100.f;
 			FGenericPlatformMath::Min(t, 1.f);
 			FGenericPlatformMath::Max(0.f, t);
 			interpolated_mat[i][j] = start_mat[i][j] * (1 - t) + end_mat[i][j] * t;

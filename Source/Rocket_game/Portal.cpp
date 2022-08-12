@@ -117,7 +117,6 @@ void APortal::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 		score = score + 5;
 
 		Cast<ARocket_gamePawn>(OtherActor)->SetScore(score);
-		//GetWorldTimerManager().SetTimer(DestroyHandle, this, &APortal::DestroyPortal, 2.f, false); //2 sec
 		GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &APortal::DestroyPortal, 2.f, true);
 	}
 
