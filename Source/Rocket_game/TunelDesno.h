@@ -39,6 +39,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Component")
 		FTransform GetTurretSpawnPoint4();
 
+	UFUNCTION(BlueprintPure, Category = "Component")	//dohvati bilo koji spawn ovisno o broju 1, 2, 3, 4 
+		FTransform GetTurretSpawnPoint(int i);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

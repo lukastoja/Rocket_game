@@ -103,6 +103,18 @@ FTransform ATunel::GetTurretSpawnPoint4()
 	return TurretSpawnPoint4->GetComponentTransform();
 }
 
+FTransform ATunel::GetTurretSpawnPoint(int i)
+{
+	if (i == 1)
+		return TurretSpawnPoint1->GetComponentTransform();
+	else if (i == 2)
+		return TurretSpawnPoint2->GetComponentTransform();
+	else if (i == 3)
+		return TurretSpawnPoint3->GetComponentTransform();
+	else
+		return TurretSpawnPoint4->GetComponentTransform();
+}
+
 // Called when the game starts or when spawned
 void ATunel::BeginPlay()
 {

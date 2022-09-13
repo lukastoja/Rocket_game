@@ -122,6 +122,18 @@ FTransform ATunelDesno::GetTurretSpawnPoint4()
 	return TurretSpawnPoint4->GetComponentTransform();
 }
 
+FTransform ATunelDesno::GetTurretSpawnPoint(int i)
+{
+	if (i == 1)
+		return TurretSpawnPoint1->GetComponentTransform();
+	else if (i == 2)
+		return TurretSpawnPoint2->GetComponentTransform();
+	else if (i == 3)
+		return TurretSpawnPoint3->GetComponentTransform();
+	else
+		return TurretSpawnPoint4->GetComponentTransform();
+}
+
 void ATunelDesno::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	ARocket_gamePawn* character = Cast<ARocket_gamePawn>(OtherActor);

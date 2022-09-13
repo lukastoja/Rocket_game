@@ -40,7 +40,7 @@ public:
 	int GetScoreInt();
 
 	UFUNCTION(BlueprintPure, Category = "Score")
-	FString GetScoreBoard(int i);
+	FString GetScoreBoard();
 
 	void PovecajScore();
 

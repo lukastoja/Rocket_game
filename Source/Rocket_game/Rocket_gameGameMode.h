@@ -78,6 +78,8 @@ public:
 	void Spawn_prepreka();
 	void SetMunicijaPar(int* metak, int* raketa);
 	void interpolate();
+	void InterpolateTurretSpawnNumber();
+	void InterpolateTurretSpawn();
 	void SpawnTurret();
 
 	float start_mat[5][5] = {
@@ -104,11 +106,19 @@ public:
 		{0.05, 0.2375, 0.2375, 0.2375, 0.2375}, // Right
 	};
 
+	float t_turret = 0;		//za spawnanje turreta od 0 do 4
+	float t_pomak = 0.1;
+	int brojTurreta = 0;
+
+	float ucestalostT = 0;	//koliko cesto ce se stvarati turret
+	float u_pomak = 0.1;
+
 	FString labels[5] = { "straight", "up", "down", "left", "right" };
 
 	int prosliTunel;
 
-	int rotacijaTunela;
+	int rotacijaTunelaUD;
+	int rotacijaTunelaLR;
 
 protected:
 	bool tunelFlag;

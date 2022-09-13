@@ -559,11 +559,16 @@ int ARocket_gamePawn::GetScoreInt()
 	return score;
 }
 
-FString ARocket_gamePawn::GetScoreBoard(int i)
+FString ARocket_gamePawn::GetScoreBoard()
 {
 	URocketGameInstance* GI = Cast<URocketGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	FString scoreB = FString::FromInt(GI->scoreboard[i]);
-	return scoreB;
+	FString scoreboard = "";
+	for (int i = 0; i < 10; i++)
+	{
+		scoreboard = scoreboard + FString::FromInt(GI->scoreboard[i]) + "\n\n";
+	}
+
+	return scoreboard;
 }
 
 void ARocket_gamePawn::PovecajScore()
