@@ -71,6 +71,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void AddTunelTile();
 
+	void Spawn(int vjerojatnost, int i);
 	void Spawn1(int vjerojatnost);
 	void Spawn2(int vjerojatnost);
 	void Spawn3(int vjerojatnost);

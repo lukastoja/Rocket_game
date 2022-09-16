@@ -80,46 +80,28 @@ FTransform ATunelGlavni::GetAttachTransform()
 	return AttachPoint->GetComponentTransform();
 }
 
-FTransform ATunelGlavni::GetSpawnPoint1()
+FTransform ATunelGlavni::GetSpawnPoint(int i)
 {
-	// TODO: insert return statement here
+	if (i == 0)
+		return SpawnPoint1->GetComponentTransform();
+	else if (i == 1)
+		return SpawnPoint2->GetComponentTransform();
+	else if (i == 2)
+		return SpawnPoint3->GetComponentTransform();
+	
 	return SpawnPoint1->GetComponentTransform();
 }
 
-FTransform ATunelGlavni::GetSpawnPoint2()
+FTransform ATunelGlavni::GetTurretSpawnPoint(int i)
 {
-	// TODO: insert return statement here
-	return SpawnPoint2->GetComponentTransform();
-}
-
-FTransform ATunelGlavni::GetSpawnPoint3()
-{
-	// TODO: insert return statement here
-	return SpawnPoint3->GetComponentTransform();
-}
-
-FTransform ATunelGlavni::GetTurretSpawnPoint1()
-{
-	// TODO: insert return statement here
-	return TurretSpawnPoint1->GetComponentTransform();
-}
-
-FTransform ATunelGlavni::GetTurretSpawnPoint2()
-{
-	// TODO: insert return statement here
-	return TurretSpawnPoint2->GetComponentTransform();
-}
-
-FTransform ATunelGlavni::GetTurretSpawnPoint3()
-{
-	// TODO: insert return statement here
-	return TurretSpawnPoint3->GetComponentTransform();
-}
-
-FTransform ATunelGlavni::GetTurretSpawnPoint4()
-{
-	// TODO: insert return statement here
-	return TurretSpawnPoint4->GetComponentTransform();
+	if (i == 1)
+		return TurretSpawnPoint1->GetComponentTransform();
+	else if (i == 2)
+		return TurretSpawnPoint2->GetComponentTransform();
+	else if (i == 3)
+		return TurretSpawnPoint3->GetComponentTransform();
+	else
+		return TurretSpawnPoint4->GetComponentTransform();
 }
 
 void ATunelGlavni::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

@@ -19,6 +19,7 @@
 #include "Prepreka_zid.h"
 #include "Turret.h"
 #include "GenericPlatform/GenericPlatformMath.h"
+#include "TunelGlavni.h"
 
 ARocket_gameGameMode::ARocket_gameGameMode()
 {
@@ -140,6 +141,24 @@ void ARocket_gameGameMode::SetMunicijaPar(int* metak, int* raketa)
 	}
 }
 
+void ARocket_gameGameMode::Spawn(int vjerojatnost, int i)
+{
+	switch (i)
+	{
+		case 1:
+			Spawn1(vjerojatnost);
+			break;
+		case 2:
+			Spawn2(vjerojatnost);
+			break;
+		case 3:
+			Spawn3(vjerojatnost);
+			break;
+		default:
+			Spawn1(vjerojatnost);
+	}
+}
+
 void ARocket_gameGameMode::Spawn1(int vjerojatnost)
 {
 	if (vjerojatnost < 25)
@@ -225,6 +244,7 @@ void ARocket_gameGameMode::CreatInitialTunelTiles()
 void ARocket_gameGameMode::AddTunelTile()
 {
 	UWorld* World = GetWorld();
+	ATunelGlavni* tunel;
 
 	if (World)
 	{
@@ -241,241 +261,99 @@ void ARocket_gameGameMode::AddTunelTile()
 
 		float sTurret = FMath::RandRange(0, 100) / 100.f;
 
-
-		int odabir = 0;
-
 		float choice = FMath::RandRange(0, 100) / 100.f;
 		if (choice <= interpolated_mat[prosliTunel][0])
 		{
-			odabir = 0;
+			tunel = GetWorld()->SpawnActor<ATunel>(TunelTileClass, NextSpawnPoint);
+			prosliTunel = 0;
 		}
 		else if (choice <= interpolated_mat[prosliTunel][1] + interpolated_mat[prosliTunel][0])
 		{
-			odabir = 1;
 			rotacijaTunelaLR = rotacijaTunelaLR + 20;
 			if (rotacijaTunelaLR >= 60)
 			{
-				odabir = 2;
+				tunel = GetWorld()->SpawnActor<ATunelLijevo>(TunelTileClassLijevo, NextSpawnPoint);
+				prosliTunel = 2;
 				rotacijaTunelaLR = rotacijaTunelaLR - 40;
+			}
+			else
+			{
+				tunel = GetWorld()->SpawnActor<ATunelDesno>(TunelTileClassDesno, NextSpawnPoint);
+				prosliTunel = 1;
 			}
 		}
 		else if (choice <= interpolated_mat[prosliTunel][2] + interpolated_mat[prosliTunel][1] + interpolated_mat[prosliTunel][0])
 		{
-			odabir = 2;
 			rotacijaTunelaLR = rotacijaTunelaLR - 20;
 			if (rotacijaTunelaLR >= -60)
 			{
-				odabir = 3;
+				tunel = GetWorld()->SpawnActor<ATunelDesno>(TunelTileClassDesno, NextSpawnPoint);
+				prosliTunel = 1;
 				rotacijaTunelaLR = rotacijaTunelaLR - 40;
+			}
+			else
+			{
+				tunel = GetWorld()->SpawnActor<ATunelLijevo>(TunelTileClassLijevo, NextSpawnPoint);
+				prosliTunel = 2;
 			}
 		}
 		else if (choice <= interpolated_mat[prosliTunel][3] + interpolated_mat[prosliTunel][2] + interpolated_mat[prosliTunel][1] + interpolated_mat[prosliTunel][0])
 		{
-			odabir = 3;
 			rotacijaTunelaUD = rotacijaTunelaUD + 20;
 			if (rotacijaTunelaUD >= 60)
 			{
-				odabir = 4;
+				tunel = GetWorld()->SpawnActor<ATunelDole>(TunelTileClassDole, NextSpawnPoint);
+				prosliTunel = 4;
 				rotacijaTunelaUD = rotacijaTunelaUD - 40;
+			}
+			else
+			{
+				tunel = GetWorld()->SpawnActor<ATunelGore>(TunelTileClassGore, NextSpawnPoint);
+				prosliTunel = 3;
 			}
 		}
 		else
 		{
-			odabir = 4;
 			rotacijaTunelaUD = rotacijaTunelaUD - 20;
 			if (rotacijaTunelaUD <= -60)
 			{
-				odabir = 3;
+				tunel = GetWorld()->SpawnActor<ATunelGore>(TunelTileClassGore, NextSpawnPoint);
+				prosliTunel = 3;
 				rotacijaTunelaUD = rotacijaTunelaUD + 40;
 			}
+			else
+			{
+				tunel = GetWorld()->SpawnActor<ATunelDole>(TunelTileClassDole, NextSpawnPoint);
+				prosliTunel = 4;
+			}
 		}
 
-		if (odabir == 0)
+		if (tunel)
 		{
-			ATunel* tunel = GetWorld()->SpawnActor<ATunel>(TunelTileClass, NextSpawnPoint);
-			if (tunel)
+			TunelSpawnPoint = tunel->GetActorTransform();;
+			NextSpawnPoint = tunel->GetAttachTransform();
+		}
+
+		if (tunelFlag)
+		{
+			for (int i = 0; i < 3; i++)
 			{
-				TunelSpawnPoint = tunel->GetActorTransform();;
-				NextSpawnPoint = tunel->GetAttachTransform();
-			}
-
-			//odlucivanje sto ce se spawnat na koji spawn point
-			if (tunelFlag)
-			{
-				int spawnpoint1 = FMath::RandRange(0, 100);
-				int spawnpoint2 = FMath::RandRange(0, 100);
-				int spawnpoint3 = FMath::RandRange(0, 100);
-
-				SpawnPoint = tunel->GetSpawnPoint1();
-				Spawn1(spawnpoint1);
-
-				SpawnPoint = tunel->GetSpawnPoint2();
-				Spawn2(spawnpoint2);
-
-				SpawnPoint = tunel->GetSpawnPoint3();
-				Spawn3(spawnpoint3);
-
-			}
-			tunelFlag = true;
-			prosliTunel = 0;
-
-			if (sTurret < ucestalostT)
-			{
-				for (int i = 0; i < brojTurreta; i++)
-				{
-					TurretSpawnPoint = tunel->GetTurretSpawnPoint(i + 1);
-					SpawnTurret();
-				}
-				InterpolateTurretSpawnNumber();
+				int spawnpoint = FMath::RandRange(0, 100);
+				SpawnPoint = tunel->GetSpawnPoint(i);
+				Spawn(spawnpoint, i);
 			}
 		}
-		else if (odabir == 1) {
-			ATunelDesno* tunelD = GetWorld()->SpawnActor<ATunelDesno>(TunelTileClassDesno, NextSpawnPoint);
-			if (tunelD)
+
+		tunelFlag = true;
+
+		if (sTurret < ucestalostT)
+		{
+			for (int i = 0; i < brojTurreta; i++)
 			{
-				TunelSpawnPoint = tunelD->GetActorTransform();;
-				NextSpawnPoint = tunelD->GetAttachTransform();
+				TurretSpawnPoint = tunel->GetTurretSpawnPoint(i + 1);
+				SpawnTurret();
 			}
-
-			//odlucivanje sto ce se spawnat na koji spawn point
-			if (tunelFlag)
-			{
-				int spawnpoint1 = FMath::RandRange(0, 100);
-				int spawnpoint2 = FMath::RandRange(0, 100);
-				int spawnpoint3 = FMath::RandRange(0, 100);
-
-				SpawnPoint = tunelD->GetSpawnPoint1();
-				Spawn1(spawnpoint1);
-
-				SpawnPoint = tunelD->GetSpawnPoint2();
-				Spawn2(spawnpoint2);
-
-				SpawnPoint = tunelD->GetSpawnPoint3();
-				Spawn3(spawnpoint3);
-			}
-			tunelFlag = true;
-			prosliTunel = 1;
-
-			if (sTurret < ucestalostT)
-			{
-				for (int i = 0; i < brojTurreta; i++)
-				{
-					TurretSpawnPoint = tunelD->GetTurretSpawnPoint(i + 1);
-					SpawnTurret();
-				}
-				InterpolateTurretSpawnNumber();
-			}
-		}
-		else if (odabir == 2) {
-			ATunelLijevo* tunelL = GetWorld()->SpawnActor<ATunelLijevo>(TunelTileClassLijevo, NextSpawnPoint);
-			if (tunelL)
-			{
-				TunelSpawnPoint = tunelL->GetActorTransform();
-				NextSpawnPoint = tunelL->GetAttachTransform();
-			}
-
-			//odlucivanje sto ce se spawnat na koji spawn point
-			if (tunelFlag)
-			{
-				int spawnpoint1 = FMath::RandRange(0, 100);
-				int spawnpoint2 = FMath::RandRange(0, 100);
-				int spawnpoint3 = FMath::RandRange(0, 100);
-
-				SpawnPoint = tunelL->GetSpawnPoint1();
-				Spawn1(spawnpoint1);
-
-				SpawnPoint = tunelL->GetSpawnPoint2();
-				Spawn2(spawnpoint2);
-
-				SpawnPoint = tunelL->GetSpawnPoint3();
-				Spawn3(spawnpoint3);
-			}
-			tunelFlag = true;
-			prosliTunel = 2;
-			
-			if (sTurret < ucestalostT)
-			{
-				for (int i = 0; i < brojTurreta; i++)
-				{
-					TurretSpawnPoint = tunelL->GetTurretSpawnPoint(i + 1);
-					SpawnTurret();
-				}
-				InterpolateTurretSpawnNumber();
-			}
-		}
-		else if (odabir == 3) {
-			ATunelGore* tunelG = GetWorld()->SpawnActor<ATunelGore>(TunelTileClassGore, NextSpawnPoint);
-			if (tunelG)
-			{
-				TunelSpawnPoint = tunelG->GetActorTransform();;
-				NextSpawnPoint = tunelG->GetAttachTransform();
-			}
-
-			//odlucivanje sto ce se spawnat na koji spawn point
-			if (tunelFlag)
-			{
-				int spawnpoint1 = FMath::RandRange(0, 100);
-				int spawnpoint2 = FMath::RandRange(0, 100);
-				int spawnpoint3 = FMath::RandRange(0, 100);
-
-				SpawnPoint = tunelG->GetSpawnPoint1();
-				Spawn1(spawnpoint1);
-
-				SpawnPoint = tunelG->GetSpawnPoint2();
-				Spawn2(spawnpoint2);
-
-				SpawnPoint = tunelG->GetSpawnPoint3();
-				Spawn3(spawnpoint3);
-			}
-			tunelFlag = true;
-			prosliTunel = 3;
-
-			if (sTurret < ucestalostT)
-			{
-				for (int i = 0; i < brojTurreta; i++)
-				{
-					TurretSpawnPoint = tunelG->GetTurretSpawnPoint(i + 1);
-					SpawnTurret();
-				}
-				InterpolateTurretSpawnNumber();
-			}
-		}
-		else {
-			ATunelDole* tunelDL = GetWorld()->SpawnActor<ATunelDole>(TunelTileClassDole, NextSpawnPoint);
-			if (tunelDL)
-			{
-				TunelSpawnPoint = tunelDL->GetActorTransform();
-				NextSpawnPoint = tunelDL->GetAttachTransform();
-			}
-
-			//odlucivanje sto ce se spawnat na koji spawn point
-			if (tunelFlag)
-			{
-				int spawnpoint1 = FMath::RandRange(0, 100);
-				int spawnpoint2 = FMath::RandRange(0, 100);
-				int spawnpoint3 = FMath::RandRange(0, 100);
-
-				SpawnPoint = tunelDL->GetSpawnPoint1();
-				Spawn1(spawnpoint1);
-
-				SpawnPoint = tunelDL->GetSpawnPoint2();
-				Spawn2(spawnpoint2);
-
-				SpawnPoint = tunelDL->GetSpawnPoint3();
-				Spawn3(spawnpoint3);
-			}
-			tunelFlag = true;
-			prosliTunel = 4;
-
-			if (sTurret < ucestalostT)
-			{
-				for (int i = 0; i < brojTurreta; i++)
-				{
-					TurretSpawnPoint = tunelDL->GetTurretSpawnPoint(i + 1);
-					SpawnTurret();
-				}
-				InterpolateTurretSpawnNumber();
-			}
+			InterpolateTurretSpawnNumber();
 		}
 	}
 

@@ -19,27 +19,8 @@ public:
 		FTransform GetAttachTransform();
 
 	UFUNCTION(BlueprintPure, Category = "Component")
-		FTransform GetSpawnPoint1();
+		FTransform GetSpawnPoint(int i);
 
-	UFUNCTION(BlueprintPure, Category = "Component")
-		FTransform GetSpawnPoint2();
-
-	UFUNCTION(BlueprintPure, Category = "Component")
-		FTransform GetSpawnPoint3();
-
-	UFUNCTION(BlueprintPure, Category = "Component")
-		FTransform GetTurretSpawnPoint1();
-
-	UFUNCTION(BlueprintPure, Category = "Component")
-		FTransform GetTurretSpawnPoint2();
-
-	UFUNCTION(BlueprintPure, Category = "Component")
-		FTransform GetTurretSpawnPoint3();
-
-	UFUNCTION(BlueprintPure, Category = "Component")
-		FTransform GetTurretSpawnPoint4();
-
-protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -90,6 +71,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Components")
 		class UArrowComponent* TurretSpawnPoint4;
+
+	UFUNCTION(BlueprintPure, Category = "Component")	//dohvati bilo koji spawn ovisno o broju 1, 2, 3, 4 
+		FTransform GetTurretSpawnPoint(int i);
 
 public:	
 	// Called every frame
